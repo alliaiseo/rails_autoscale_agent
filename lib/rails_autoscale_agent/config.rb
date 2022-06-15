@@ -28,7 +28,8 @@ module RailsAutoscaleAgent
       @max_request_size = 100_000 # ignore request payloads over 100k since they skew the queue times
       @report_interval = 10 # this default will be overwritten during Reporter#register!
       @logger ||= defined?(Rails) ? Rails.logger : ::Logger.new(STDOUT)
-      @dyno = dev_mode? ? 'dev.1' : ENV['DYNO']
+      @instance_name = ENV['RAILS_AUTOSCALE_INSTANCE_NAME'] || 'DYNO'
+      @dyno = dev_mode? ? 'dev.1' : ENV[@instance_name]
     end
 
     def to_s
