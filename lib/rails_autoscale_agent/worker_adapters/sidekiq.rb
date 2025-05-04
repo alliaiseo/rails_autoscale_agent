@@ -44,7 +44,7 @@ module RailsAutoscaleAgent
         if track_long_running_jobs?
           busy_counts = Hash.new { |h,k| h[k] = 0}
           ::Sidekiq::Workers.new.each do |pid, tid, work|
-            busy_counts[work.dig('payload', 'queue')] += 1
+            busy_counts[work.queue] += 1
           end
         end
 
